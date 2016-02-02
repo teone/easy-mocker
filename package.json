@@ -1,0 +1,22 @@
+{
+  "name": "mock-server",
+  "version": "1.0.0",
+  "description": "Mock Server for e-cord-demo development",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js",
+    "dev": "nodemon server.js"
+  },
+  "author": "Matteo Scandolo",
+  "license": "ISC",
+  "dependencies": {
+    "bluebird": "^3.2.1",
+    "cors": "^2.7.1",
+    "express": "^4.13.4",
+    "optimist": "^0.6.1"
+  },
+  "devDependencies": {
+    "nodemon": "^1.8.1"
+  }
+}
