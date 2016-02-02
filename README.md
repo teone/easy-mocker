@@ -4,13 +4,12 @@ This is a `NodeJs` webserver intended for development. It provides a basic and q
 
 ## Configuration
 
- - `-c path/to/config.json`
- | Option | Value | Description |
- | ------ | ----- | ----------- |
- | `-c`*  | `path/to/config.json` | Path to api definition |
- | `-d`*  | `path/to/mock-directory` | Path to mock folder |
- | `-p`   | `port` | Webserver port |
- | `-u`   | `null` | Return different file for different user |
+| Option | Value | Description |
+| ------ | ----- | ----------- |
+| `-c`*  | `path/to/config.json` | Path to api definition |
+| `-d`*  | `path/to/mock-directory` | Path to mock folder |
+| `-p`   | `port` | Webserver port |
+| `-u`   | `null` | Return different file for different user |
 
  _Options marked with * are mandatory.mv m_
 
