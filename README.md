@@ -65,4 +65,10 @@ The `mock-directory` should change in this way:
 
 Files inside `user[id]` folders follow normal mock files rules.
 
+## TODO
+
+- Write tests
+- Add config options to allow specify a header different form `x-userid` to identify user
+- If `-u` is set create `login` and `logout` endpoint
+
 
