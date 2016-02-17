@@ -1,39 +1,50 @@
-'use strict';
+(function () {
+  'use strict';
 
-const express = require('express');
-const app = express();
-const cors = require('cors')
+  const express = require('express');
+  const app = express();
+  const cors = require('cors')
 
-// CONFIG
-const port = require('./lib/config').port;
+  // CONFIG
+  const port = require('./lib/config').port;
+  const enableUser = require('./lib/config').user;
 
-// IN MEMORY STORAGE
-const memory = require('./lib/in_memory');
+  // IN MEMORY STORAGE
+  const memory = require('./lib/in_memory');
 
-// ROUTES
-const apiRoutes = require('./lib/api');
+  // ROUTES
+  const apiRoutes = require('./lib/api');
 
-app.use(cors());
+  app.use(cors());
 
-// attach user info to req
-app.use((req, res, next) => {
-  if(req.headers['x-userid']){
-    req.user = req.headers['x-userid'];
-  }
-  else{
-    return next(new Error('User not found'));
-  }
-  next();
-});
+  // attach user info to req
+  app.use((req, res, next) => {
+    if(enableUser){
+      if(req.headers['x-userid']){
+        req.user = req.headers['x-userid'];
+      }
+      else{
+        return next(new Error('User not found'));
+      }
+    }
+    next();
+  });
 
-app.use('/api', apiRoutes);
+  app.use('/api', apiRoutes);
 
-// ERROR HANDLING
-app.use((err, req, res, next) => {
-  console.error(err);
-  res.status(404).send({error: err});
-});
+  // ERROR HANDLING
+  app.use((err, req, res, next) => {
+    console.error(err);
+    res.status(404).send({error: err});
+  });
 
-app.listen(port, function () {
-  console.log(`Mock Server Listening on port ${port}!`);
-});
+  memory.setup()
+  .then(() => {
+    app.listen(port, function () {
+      console.log(`Mock Server Listening on port ${port}!`);
+    });
+  });
+
+  module.exports = app;
+  
+})();

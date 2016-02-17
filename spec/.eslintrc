@@ -8,5 +8,8 @@
         "afterEach": true,
         "before": true,
         "after": true
+    },
+    "rules": {
+        "max-nested-callbacks": [0, 6],
     }
 }

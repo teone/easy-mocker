@@ -30,17 +30,24 @@
   });
 
   // start
-  fs.readFileAsync(config.definitionFile)
-  .then((file) => {
-    buildStorage(JSON.parse(file));
-  })
-  .catch((e) => {
-    throw new Error(e);
+  const setup = P.promisify((done) => {
+    fs.readFileAsync(config.definitionFile)
+    .then((file) => {
+      buildStorage(JSON.parse(file));
+      loadBaseData(config.mockDir)
+      .then(() => {
+        done();
+      });
+    })
+    .catch((e) => {
+      throw new Error(e);
+    });
   });
 
   module.exports = {
     memoryStorage: memoryStorage,
     buildStorage: buildStorage,
-    loadBaseData: loadBaseData
+    loadBaseData: loadBaseData,
+    setup: setup
   };
 })();

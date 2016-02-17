@@ -1,83 +1,89 @@
-'use strict';
+(function () {
 
-const express = require('express');
-const router = express.Router();
-const fs = require('fs');
-const P = require('bluebird');
-P.promisifyAll(fs);
+  'use strict';
 
-const config = require('./config');
+  const express = require('express');
+  const router = express.Router();
+  const fs = require('fs');
+  const P = require('bluebird');
+  const _ = require('lodash');
+  P.promisifyAll(fs);
 
-const loadFile = P.promisify((endpoint, req, done) => {
+  const config = require('./config');
+  const memoryStorage = require('./in_memory').memoryStorage;
 
-  let path = `${__dirname}/${config.mockDir}/`;
+  const loadFile = P.promisify((endpoint, req, done) => {
 
-  // if user option is set, append user folder to path
-  if (config.user){
-    path += `user${req.user}/`;
-  }
+    let path = `${__dirname}/${config.mockDir}/`;
 
-  // append filename
-  path += `${req.method.toUpperCase()}_${endpoint.url}`;
+    // if user option is set, append user folder to path
+    if (config.user){
+      path += `user${req.user}/`;
+    }
 
-  // if a param is provided append the param to filename
-  if(endpoint.param && req.params[endpoint.param]){
-    path += `_${req.params[endpoint.param]}`;
-  }
+    // append filename
+    path += `${req.method.toUpperCase()}_${endpoint.url}`;
 
-  // append json extension
-  path += '.json';
+    // if a param is provided append the param to filename
+    if(endpoint.param && req.params[endpoint.param]){
+      path += `_${req.params[endpoint.param]}`;
+    }
 
-  // read file
-  return fs.readFileAsync(path)
-  .then((file) => {
-    return done(null, file);
-  })
-  .catch((err) => {
-    return done(err);
+    // append json extension
+    path += '.json';
+
+    // read file
+    return fs.readFileAsync(path)
+    .then((file) => {
+      return done(null, file);
+    })
+    .catch((err) => {
+      return done(err);
+    });
   });
-});
 
-const buildRest = (apiDefinitions) => {
-  for(let endpoint of apiDefinitions){
-    for(let method of endpoint.methods){
-      // Build GET and POST endpoints
-      router[method.toLowerCase()](`/${endpoint.url}`, (req, res, next) => {
-        return loadFile(endpoint, req)
-        .then((file) => {
-          return res.send(file);
-        })
-        .catch((err) => {
-          return next(err);
-        });
-      });
-
-      if(endpoint.param){
-        // Build targeted params urls (eg: GET url/:id)
-        router[method.toLowerCase()](`/${endpoint.url}/:${endpoint.param}`, (req, res, next) => {
-          return loadFile(endpoint, req)
-          .then((file) => {
-            return res.send(file);
-          })
-          .catch((err) => {
-            return next(err);
+  const buildRest = (apiDefinitions) => {
+    for(let endpoint of apiDefinitions){
+      for(let method of endpoint.methods){
+        // Build GET and POST endpoints
+        switch(method){
+        case 'GET':
+          router.get(`/${endpoint.url}`, (req, res, next) => {
+            res.send(memoryStorage[endpoint.url]);
           });
-        });
+        case 'POST':
+          router.post(`/${endpoint.url}`, (req, res, next) => {
+            console.log('Handle Save!');
+          });
+        }
+
+        if(endpoint.param){
+          // Build targeted params urls (eg: GET url/:id)
+          router[method.toLowerCase()](`/${endpoint.url}/:${endpoint.param}`, (req, res, next) => {
+
+            let filter = {};
+            filter[endpoint.param] = req.params[endpoint.param];
+
+            res.send(_.find(memoryStorage[endpoint.url], (item) => {
+              return item[endpoint.param] == req.params[endpoint.param];
+            }));
+          });
+        }
       }
     }
-  }
-};
+  };
 
-fs.readFileAsync(config.definitionFile)
-.then((file) => {
-  buildRest(JSON.parse(file));
-})
-.catch((e) => {
-  throw new Error(e);
-});
+  fs.readFileAsync(config.definitionFile)
+  .then((file) => {
+    buildRest(JSON.parse(file));
+  })
+  .catch((e) => {
+    throw new Error(e);
+  });
 
-router.get('/', (req, res) => {
-  res.send('Welcome to E-Cord dev server');
-});
+  router.get('/', (req, res) => {
+    res.send('Welcome to E-Cord dev server');
+  });
 
-module.exports = router;
+  module.exports = router;
+})();
