@@ -36,6 +36,11 @@
 
   // ERROR HANDLING
   app.use((err, req, res, next) => {
+
+    if(process.env.NODE_ENV === 'test'){
+      console.log(err);
+    }
+
     res.status(404).send({error: err});
   });
 

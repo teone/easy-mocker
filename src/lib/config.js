@@ -15,6 +15,7 @@ if(process.env.NODE_ENV !== 'test'){
 else {
   args.c = path.join(__dirname, '../../spec/config/base.json');
   args.d = path.join(__dirname, '../../spec/mocks/');
+  args.p = 4001;
 }
 
 module.exports = {
