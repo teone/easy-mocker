@@ -11,7 +11,7 @@ This is a `NodeJs` webserver intended for development. It provides a basic and q
 | `-c`*  | `path/to/config.json` | Path to api definition |
 | `-d`*  | `path/to/mock-directory` | Path to mock folder |
 | `-p`   | `port` | Webserver port |
-| `-u`   | `null` | Return different file for different user |
+| `-u`   | `null` | Return different file for different user (to be implemented) |
 
  _Options marked with * are mandatory.mv m_
 
