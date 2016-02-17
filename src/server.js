@@ -4,6 +4,7 @@
   const express = require('express');
   const app = express();
   const cors = require('cors')
+  const bodyParser = require('body-parser');
 
   // CONFIG
   const port = require('./lib/config').port;
@@ -16,6 +17,7 @@
   const apiRoutes = require('./lib/api');
 
   app.use(cors());
+  app.use(bodyParser.json());
 
   // attach user info to req
   app.use((req, res, next) => {

@@ -12,7 +12,7 @@
     const definition = [
       {
         url: 'users',
-        methods: ['GET'],
+        methods: ['GET', 'POST'],
         param: 'id'
       },
       {

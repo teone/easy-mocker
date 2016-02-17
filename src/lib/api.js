@@ -53,21 +53,44 @@
           });
         case 'POST':
           router.post(`/${endpoint.url}`, (req, res, next) => {
-            console.log('Handle Save!');
+            let item = req.body;
+            item.id = _.orderBy(memoryStorage[endpoint.url], 'id', 'desc')[0].id + 1;
+            memoryStorage[endpoint.url].push(item);
+            res.send(item);
           });
         }
 
         if(endpoint.param){
           // Build targeted params urls (eg: GET url/:id)
-          router[method.toLowerCase()](`/${endpoint.url}/:${endpoint.param}`, (req, res, next) => {
+          switch(method){
+          case 'GET':
+            router.get(`/${endpoint.url}/:${endpoint.param}`, (req, res, next) => {
 
-            let filter = {};
-            filter[endpoint.param] = req.params[endpoint.param];
+              let filter = {};
+              filter[endpoint.param] = req.params[endpoint.param];
 
-            res.send(_.find(memoryStorage[endpoint.url], (item) => {
-              return item[endpoint.param] == req.params[endpoint.param];
-            }));
-          });
+              res.send(_.find(memoryStorage[endpoint.url], (item) => {
+                return item[endpoint.param] == req.params[endpoint.param];
+              }));
+            });
+          case 'POST':
+          case 'PUT':
+            router[method.toLowerCase()](`/${endpoint.url}/:${endpoint.param}`, (req, res, next) => {
+              let filter = {};
+              filter[endpoint.param] = req.params[endpoint.param];
+
+              // load item
+              let item = _.find(memoryStorage[endpoint.url], (item) => {
+                return item[endpoint.param] == req.params[endpoint.param];
+              });
+
+              // extend the object with new data
+              // NOTE what if I want to delete a field?
+              item = Object.assign(item, req.body);
+
+              res.send(item);
+            });
+          }
         }
       }
     }
