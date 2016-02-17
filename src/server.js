@@ -35,7 +35,7 @@
   app.use('/api', apiRoutes);
 
   // ERROR HANDLING
-  app.use((err, req, res, next) => {
+  app.use((err, req, res) => {
     console.error(err);
     res.status(404).send({error: err});
   });

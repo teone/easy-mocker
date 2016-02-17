@@ -12,47 +12,17 @@
   const config = require('./config');
   const memoryStorage = require('./in_memory').memoryStorage;
 
-  const loadFile = P.promisify((endpoint, req, done) => {
-
-    let path = `${__dirname}/${config.mockDir}/`;
-
-    // if user option is set, append user folder to path
-    if (config.user){
-      path += `user${req.user}/`;
-    }
-
-    // append filename
-    path += `${req.method.toUpperCase()}_${endpoint.url}`;
-
-    // if a param is provided append the param to filename
-    if(endpoint.param && req.params[endpoint.param]){
-      path += `_${req.params[endpoint.param]}`;
-    }
-
-    // append json extension
-    path += '.json';
-
-    // read file
-    return fs.readFileAsync(path)
-    .then((file) => {
-      return done(null, file);
-    })
-    .catch((err) => {
-      return done(err);
-    });
-  });
-
   const buildRest = (apiDefinitions) => {
     for(let endpoint of apiDefinitions){
       for(let method of endpoint.methods){
         // Build GET and POST endpoints
         switch(method){
         case 'GET':
-          router.get(`/${endpoint.url}`, (req, res, next) => {
+          router.get(`/${endpoint.url}`, (req, res) => {
             res.send(memoryStorage[endpoint.url]);
           });
         case 'POST':
-          router.post(`/${endpoint.url}`, (req, res, next) => {
+          router.post(`/${endpoint.url}`, (req, res) => {
             let item = req.body;
             item.id = _.orderBy(memoryStorage[endpoint.url], 'id', 'desc')[0].id + 1;
             memoryStorage[endpoint.url].push(item);
@@ -64,7 +34,7 @@
           // Build targeted params urls (eg: GET url/:id)
           switch(method){
           case 'GET':
-            router.get(`/${endpoint.url}/:${endpoint.param}`, (req, res, next) => {
+            router.get(`/${endpoint.url}/:${endpoint.param}`, (req, res) => {
 
               let filter = {};
               filter[endpoint.param] = req.params[endpoint.param];
@@ -75,7 +45,7 @@
             });
           case 'POST':
           case 'PUT':
-            router[method.toLowerCase()](`/${endpoint.url}/:${endpoint.param}`, (req, res, next) => {
+            router[method.toLowerCase()](`/${endpoint.url}/:${endpoint.param}`, (req, res) => {
               let filter = {};
               filter[endpoint.param] = req.params[endpoint.param];
 

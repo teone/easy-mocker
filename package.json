@@ -4,6 +4,7 @@
   "description": "Mock Server for e-cord-demo development",
   "main": "index.js",
   "scripts": {
+    "pretest": "eslint ./",
     "test": "NODE_ENV=test mocha spec/",
     "start": "node src/server.js -u -c ../mocks/mock-url-definition.json -d ../mocks",
     "dev": "nodemon -c ../mocks/mock-url-definition.json -d ../mocks -u server.js"
@@ -20,6 +21,7 @@
   },
   "devDependencies": {
     "chai": "^3.5.0",
+    "eslint": "^2.1.0",
     "mocha": "^2.4.5",
     "nodemon": "^1.8.1",
     "supertest": "^1.1.0"

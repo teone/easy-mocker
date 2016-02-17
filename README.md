@@ -43,38 +43,14 @@ That will generate the following endpoints, note that all endpoint will be prefi
 
 ## MOCK Files
 
-Mock files are intended to be named accordingly this rules, and to be stored in the root of provided `mock-directory`. Examples refers to `users` endpoint:
+You can provide data to be loaded as a starting point for your development server. They should be located in the Mock Folder directory (`-d` option).
 
-- Prefix the name with method: `GET_users.json`
-- If `param` is defined in endpoint configuration it is appended to filename, so that: `GET /users/1` will load `GET_users_1.json`
-
-### Handle Users
-
-If the `-u` flag is set, `mock-server` will search in `req.headers` for an header defining the user id: `x-userid`. Remember to set it.
-
-The `mock-directory` should change in this way:
-
-```
-+-- user1
-|   +-- mock files for user 1
-+-- user2
-|   +-- mock files for user 2
-+-- userN
-    +-- mock files for user N
-```
-
-Files inside `user[id]` folders follow normal mock files rules.
+Examples for this files can be found in `spec/mocks`, anyway they are plain `JSON` arrays of objects.
 
 ## TODO
 
-- Write tests
+- Handle users
 - Add config options to allow specify a header different form `x-userid` to identify user
 - If `-u` is set create `login` and `logout` endpoint
-
-### Persist data in memory
-- Read the existing data
-- Store them in an object
-- Update them with any request
-- Can LoopBack be usefull for this??
 
 
