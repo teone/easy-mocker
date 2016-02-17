@@ -23,18 +23,20 @@ This is a sample structure for a configuration file:
 [
   {
     "url": "users",
+    "base": "api/",
     "methods": ["GET"],
     "param": "id"
   },
   {
     "url": "posts",
+    "base": "api/",
     "methods": ["GET", "POST"],
     "param": "id"
   }
 ]
 ```
 
-That will generate the following endpoints, note that all endpoint will be prefixed bi `/api`:
+That will generate the following endpoints:
 
 - `GET /api/users`
 - `GET /api/users/:id`

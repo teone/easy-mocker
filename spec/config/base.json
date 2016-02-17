@@ -1,11 +1,13 @@
 [
   {
     "url": "users",
+    "base": "api/",
     "methods": ["GET", "POST"],
     "param": "id"
   },
   {
     "url": "posts",
+    "base": "api/",
     "methods": ["GET", "POST"],
     "param": "id"
   }

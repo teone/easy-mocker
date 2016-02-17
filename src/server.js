@@ -32,11 +32,10 @@
     next();
   });
 
-  app.use('/api', apiRoutes);
+  app.use('/', apiRoutes);
 
   // ERROR HANDLING
-  app.use((err, req, res) => {
-    console.error(err);
+  app.use((err, req, res, next) => {
     res.status(404).send({error: err});
   });
 

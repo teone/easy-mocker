@@ -18,11 +18,11 @@
         // Build GET and POST endpoints
         switch(method){
         case 'GET':
-          router.get(`/${endpoint.url}`, (req, res) => {
+          router.get(`/${endpoint.base}${endpoint.url}`, (req, res) => {
             res.send(memoryStorage[endpoint.url]);
           });
         case 'POST':
-          router.post(`/${endpoint.url}`, (req, res) => {
+          router.post(`/${endpoint.base}${endpoint.url}`, (req, res) => {
             let item = req.body;
             item.id = _.orderBy(memoryStorage[endpoint.url], 'id', 'desc')[0].id + 1;
             memoryStorage[endpoint.url].push(item);
@@ -34,7 +34,7 @@
           // Build targeted params urls (eg: GET url/:id)
           switch(method){
           case 'GET':
-            router.get(`/${endpoint.url}/:${endpoint.param}`, (req, res) => {
+            router.get(`/${endpoint.base}${endpoint.url}/:${endpoint.param}`, (req, res) => {
 
               let filter = {};
               filter[endpoint.param] = req.params[endpoint.param];
@@ -45,7 +45,7 @@
             });
           case 'POST':
           case 'PUT':
-            router[method.toLowerCase()](`/${endpoint.url}/:${endpoint.param}`, (req, res) => {
+            router[method.toLowerCase()](`/${endpoint.base}${endpoint.url}/:${endpoint.param}`, (req, res) => {
               let filter = {};
               filter[endpoint.param] = req.params[endpoint.param];
 
