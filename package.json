@@ -4,8 +4,8 @@
   "description": "Mock Server for e-cord-demo development",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node server.js -u -c ../mocks/mock-url-definition.json -d ../mocks",
+    "test": "NODE_ENV=test mocha spec/",
+    "start": "node src/server.js -u -c ../mocks/mock-url-definition.json -d ../mocks",
     "dev": "nodemon -c ../mocks/mock-url-definition.json -d ../mocks -u server.js"
   },
   "author": "Matteo Scandolo",

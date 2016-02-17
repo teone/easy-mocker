@@ -1,0 +1,12 @@
+[
+  {
+    "url": "users",
+    "methods": ["GET"],
+    "param": "id"
+  },
+  {
+    "url": "posts",
+    "methods": ["GET", "POST"],
+    "param": "id"
+  }
+]

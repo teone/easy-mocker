@@ -5,10 +5,13 @@ const app = express();
 const cors = require('cors')
 
 // CONFIG
-const port = require('./config').port;
+const port = require('./lib/config').port;
 
-// MODULES
-const apiRoutes = require('./api');
+// IN MEMORY STORAGE
+const memory = require('./lib/in_memory');
+
+// ROUTES
+const apiRoutes = require('./lib/api');
 
 app.use(cors());
 
