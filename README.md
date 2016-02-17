@@ -71,4 +71,10 @@ Files inside `user[id]` folders follow normal mock files rules.
 - Add config options to allow specify a header different form `x-userid` to identify user
 - If `-u` is set create `login` and `logout` endpoint
 
+### Persist data in memory
+- Read the existing data
+- Store them in an object
+- Update them with any request
+- Can LoopBack be usefull for this??
+
 
