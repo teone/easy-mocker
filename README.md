@@ -34,7 +34,7 @@ This is a sample structure for a configuration file:
 ]
 ```
 
-That will generate the following endpoints, note that all endpoint will be prefixed bi `/api`:
+That will generate the following endpoints, note that all endpoint will be prefixed by `/api`:
 
 - `GET /api/users`
 - `GET /api/users/:id`
