@@ -1,5 +1,7 @@
 # EASY MOCKER
 
+[![Build Status](https://travis-ci.org/teone/easy-mocker.svg?branch=master)](https://travis-ci.org/teone/easy-mocker)
+
 This is a `NodeJs` webserver intended for development. It provides a basic and quick way to define mock response trough a collection of `JSON` responses and a `JSON` file containing endpoint definition.
 
 ## Configuration
