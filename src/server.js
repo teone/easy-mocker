@@ -40,7 +40,7 @@
     if(process.env.NODE_ENV === 'test'){
       console.log(err);
     }
-
+    console.log(err, err.stack, req.url);
     res.status(404).send({error: err});
   });
 

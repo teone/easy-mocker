@@ -75,6 +75,29 @@
               })
           })
       });
+
+      describe('in an empty collection', () => {
+        it('should return an object and persist data', (done) => {
+          request(app)
+            .post('/api/posts')
+            .send({
+              title: 'Sample Title'
+            })
+            .end((err, res) => {
+              expect(res.status).to.equal(200);
+              expect(res.body.id).to.equal(1);
+              expect(res.body.title).to.equal('Sample Title');
+
+              request(app)
+                .get('/api/posts/1')
+                .end((err, res) => {
+                  expect(res.status).to.equal(200);
+                  expect(res.body.title).to.equal('Sample Title');
+                  done();
+                })
+            })
+        });
+      });
     });
 
     describe('when updating an item', () => {

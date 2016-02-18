@@ -41,7 +41,12 @@
         case 'POST':
           router.post(`/${endpoint.base}${endpoint.url}`, (req, res) => {
             let item = req.body;
-            item.id = _.orderBy(memoryStorage[endpoint.url], 'id', 'desc')[0].id + 1;
+            if(memoryStorage[endpoint.url].length > 0){
+              item.id = _.orderBy(memoryStorage[endpoint.url], 'id', 'desc')[0].id + 1;
+            }
+            else{
+              item.id = 1;
+            }
             memoryStorage[endpoint.url].push(item);
             return res.send(item);
           });

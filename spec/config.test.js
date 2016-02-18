@@ -36,7 +36,7 @@
         memory.loadBaseData(path.join(__dirname, './mocks/'))
         .then(() => {
           expect(memory.memoryStorage).to.have.property('users').with.length(2);
-          expect(memory.memoryStorage).to.have.property('posts').with.length(2);
+          expect(memory.memoryStorage).to.have.property('posts').with.length(0);
           done();
         });
       });
