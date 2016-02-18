@@ -4,6 +4,12 @@
 
 This is a `NodeJs` webserver intended for development. It provides a basic and quick way to define mock response trough a collection of `JSON` responses and a `JSON` file containing endpoint definition.
 
+## Installation
+
+Grab it form npm: `npm install easy-mocker`
+
+Minimum usage: `easy-mocker -c config.json -d folder/`
+
 ## Configuration
 
 | Option | Value | Description |

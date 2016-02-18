@@ -1,13 +1,14 @@
 {
-  "name": "mock-server",
-  "version": "1.0.0",
-  "description": "Mock Server for e-cord-demo development",
-  "main": "index.js",
+  "name": "easy-mocker",
+  "version": "1.1.0",
+  "description": "Mock Server for development",
+  "main": "./src/server.js",
+  "bin": {
+      "easy-mocker": "./src/server.js"
+    }
   "scripts": {
     "pretest": "eslint ./",
-    "test": "NODE_ENV=test mocha spec/",
-    "start": "node src/server.js -u -c ../mocks/mock-url-definition.json -d ../mocks",
-    "dev": "nodemon -c ../mocks/mock-url-definition.json -d ../mocks -u server.js"
+    "test": "NODE_ENV=test mocha spec/"
   },
   "author": "Matteo Scandolo",
   "license": "ISC",
