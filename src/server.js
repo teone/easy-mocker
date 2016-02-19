@@ -1,10 +1,10 @@
 #!/usr/bin/env node
-(function () {
+(function (){
   'use strict';
 
   const express = require('express');
   const app = express();
-  const cors = require('cors')
+  const cors = require('cors');
   const bodyParser = require('body-parser');
 
   // CONFIG
@@ -26,32 +26,29 @@
       if(req.headers['x-userid']){
         req.user = req.headers['x-userid'];
       }
-      else{
+      else {
         return next(new Error('User not found'));
       }
     }
-    next();
+    return next();
   });
 
   app.use('/', apiRoutes);
 
   // ERROR HANDLING
   app.use((err, req, res, next) => {
-
     if(process.env.NODE_ENV === 'test'){
       console.log(err);
     }
-    console.log(err, err.stack, req.url);
     res.status(404).send({error: err});
   });
 
   memory.setup()
   .then(() => {
-    app.listen(port, function () {
+    app.listen(port, () => {
       console.log(`Mock Server Listening on port ${port}!`);
     });
   });
 
   module.exports = app;
-  
 })();

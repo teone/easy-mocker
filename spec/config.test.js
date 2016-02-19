@@ -6,20 +6,18 @@
   const path = require('path');
 
   describe('The storage helper', () => {
-
     const memory = require('../src/lib/in_memory');
-
     const definition = [
       {
         url: 'users',
         methods: ['GET', 'POST'],
-        param: 'id'
+        param: 'id',
       },
       {
         url: 'posts',
         methods: ['GET', 'POST'],
-        param: 'id'
-      }
+        param: 'id',
+      },
     ];
 
     describe('given an API structure', () => {

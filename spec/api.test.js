@@ -7,7 +7,6 @@
   const expect = chai.expect;
 
   describe('From the base config', () => {
-
     beforeEach((done) => {
       const memory = require('../src/lib/in_memory');
       memory.setup()
@@ -24,7 +23,7 @@
             expect(res.status).to.equal(200);
             expect(res.body.length).to.equal(2);
             done();
-          })
+          });
       });
 
       describe('and query parameters are passed', () => {
@@ -35,7 +34,7 @@
             expect(res.status).to.equal(200);
             expect(res.body.length).to.equal(1);
             done();
-          })
+          });
         });
       });
     });
@@ -49,7 +48,7 @@
             expect(res.body.id).to.equal(1);
             expect(res.body.name).to.equal('Jhon Snow');
             done();
-          })
+          });
       });
     });
 
@@ -58,7 +57,7 @@
         request(app)
           .post('/api/users')
           .send({
-            name: 'Daenerys Targaryen'
+            name: 'Daenerys Targaryen',
           })
           .end((err, res) => {
             expect(res.status).to.equal(200);
@@ -67,13 +66,13 @@
 
             request(app)
               .get('/api/users/3')
-              .end((err, res) => {
-                expect(res.status).to.equal(200);
-                expect(res.body.id).to.equal(3);
-                expect(res.body.name).to.equal('Daenerys Targaryen');
+              .end((err1, res1) => {
+                expect(res1.status).to.equal(200);
+                expect(res1.body.id).to.equal(3);
+                expect(res1.body.name).to.equal('Daenerys Targaryen');
                 done();
-              })
-          })
+              });
+          });
       });
 
       describe('in an empty collection', () => {
@@ -81,7 +80,7 @@
           request(app)
             .post('/api/posts')
             .send({
-              title: 'Sample Title'
+              title: 'Sample Title',
             })
             .end((err, res) => {
               expect(res.status).to.equal(200);
@@ -90,12 +89,12 @@
 
               request(app)
                 .get('/api/posts/1')
-                .end((err, res) => {
-                  expect(res.status).to.equal(200);
-                  expect(res.body.title).to.equal('Sample Title');
+                .end((err1, res1) => {
+                  expect(res1.status).to.equal(200);
+                  expect(res1.body.title).to.equal('Sample Title');
                   done();
-                })
-            })
+                });
+            });
         });
       });
     });
@@ -106,7 +105,7 @@
           .post('/api/users/2')
           .send({
             name: 'Daenerys Targaryen',
-            updated: true
+            updated: true,
           })
           .end((err, res) => {
             expect(res.status).to.equal(200);
@@ -115,16 +114,15 @@
 
             request(app)
               .get('/api/users/2')
-              .end((err, res) => {
-                expect(res.status).to.equal(200);
-                expect(res.body.id).to.equal(2);
-                expect(res.body.name).to.equal('Daenerys Targaryen');
-                expect(res.body.updated).to.equal(true);
+              .end((err1, res1) => {
+                expect(res1.status).to.equal(200);
+                expect(res1.body.id).to.equal(2);
+                expect(res1.body.name).to.equal('Daenerys Targaryen');
+                expect(res1.body.updated).to.equal(true);
                 done();
-              })
-          })
+              });
+          });
       });
     });
   });
-
 })();
