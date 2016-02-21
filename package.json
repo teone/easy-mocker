@@ -1,7 +1,15 @@
 {
   "name": "easy-mocker",
-  "version": "1.1.1",
-  "description": "Mock Server for development",
+  "version": "1.2.0",
+  "keywords": [
+    "server",
+    "cli",
+    "json",
+    "mocks",
+    "fake-data",
+    "express"
+  ],
+  "description": "This is a Mock Server for development, allow to define custom endpoint and starting data. Furnished with an In-Memory storage will speed up your development flow.",
   "main": "./src/server.js",
   "bin": {
     "easy-mocker": "./src/server.js"
@@ -11,7 +19,15 @@
     "test": "NODE_ENV=test mocha spec/"
   },
   "author": "Matteo Scandolo",
-  "license": "ISC",
+  "homepage": "https://github.com/teone/easy-mocker",
+  "bugs": { 
+    "url" : "https://github.com/teone/easy-mocker/issues"
+  },
+  "repository" :{
+    "type" : "git",
+    "url" : "https://github.com/teone/easy-mocker"
+  }
+  "license": "MIT",
   "dependencies": {
     "bluebird": "^3.2.1",
     "body-parser": "^1.15.0",
