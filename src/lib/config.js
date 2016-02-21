@@ -4,12 +4,12 @@
   const args = require('optimist').argv;
   const path = require('path');
 
-  if(process.env.NODE_ENV !== 'test'){
-    if(!args.c){
+  if (process.env.NODE_ENV !== 'test') {
+    if (!args.c) {
       throw new Error('Specifing a config file is MANDATORY! Use -c flag.');
     }
 
-    if(!args.d){
+    if (!args.d) {
       throw new Error('Specifing a mock directory is MANDATORY! Use -d flag.');
     }
   }

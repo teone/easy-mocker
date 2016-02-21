@@ -1,4 +1,4 @@
-(function (){
+(function () {
   'use strict';
   const express = require('express');
   const router = express.Router();
@@ -11,19 +11,19 @@
   const memoryStorage = require('./in_memory').memoryStorage;
 
   const buildRest = (apiDefinitions) => {
-    for(const endpoint of apiDefinitions){
-      for(const method of endpoint.methods){
+    for (const endpoint of apiDefinitions) {
+      for (const method of endpoint.methods) {
         // Build GET and POST endpoints
-        switch(method){
+        switch (method) {
           case 'GET':
             router.get(`/${endpoint.base}${endpoint.url}`, (req, res) => {
               // filtering on query params
-              if(Object.keys(req.query).length > 0){
+              if (Object.keys(req.query).length > 0) {
                 // django patch
                 delete req.query.no_hyperlinks;
                 // convert param number in numbers
-                for (const p in req.query){
-                  if(!isNaN(req.query[p])){
+                for (const p in req.query) {
+                  if (!isNaN(req.query[p])) {
                     req.query[p] = parseInt(req.query[p], 10);
                   }
                 }
@@ -35,23 +35,26 @@
           case 'POST':
             router.post(`/${endpoint.base}${endpoint.url}`, (req, res) => {
               const item = req.body;
-              if(memoryStorage[endpoint.url].length > 0){
+              if (memoryStorage[endpoint.url].length > 0) {
                 item.id = _.orderBy(memoryStorage[endpoint.url], 'id', 'desc')[0].id + 1;
               }
-              else{
+              else {
                 item.id = 1;
               }
               memoryStorage[endpoint.url].push(item);
               return res.send(item);
             });
             break;
+          case 'DELETE':
+            // NOTE Should we handle delete for a full collection?
+            break;
           default:
-            throw new Error(`Method ${method} Not Handled!`);
+            throw new Error(`Query Method ${method} Not Handled!`);
         }
 
-        if(endpoint.param){
+        if (endpoint.param) {
           // Build targeted params urls (eg: GET url/:id)
-          switch(method){
+          switch (method) {
             case 'GET':
               router.get(`/${endpoint.base}${endpoint.url}/:${endpoint.param}`, (req, res) => {
                 const filter = {};
@@ -80,6 +83,15 @@
                 item = Object.assign(item, req.body);
 
                 return res.send(item);
+              });
+              break;
+            case 'DELETE':
+              router.delete(`/${endpoint.base}${endpoint.url}/:${endpoint.param}`, (req, res) => {
+                _.remove(
+                  memoryStorage[endpoint.url],
+                  el => el[endpoint.param] == req.params[endpoint.param]
+                );
+                return res.status(204).send();
               });
               break;
             default:

@@ -1,4 +1,4 @@
-(function (){
+(function () {
   'use strict';
 
   const P = require('bluebird');
@@ -13,7 +13,7 @@
   * Should create the object structure to contain data
   */
   const buildStorage = (apiDefinitions) => {
-    for(const endpoint of apiDefinitions){
+    for (const endpoint of apiDefinitions) {
       memoryStorage[endpoint.url] = [];
     }
   };
@@ -21,9 +21,9 @@
   /**
   * Should fill the memory storage with provided data from mock files
   */
-  const loadBaseData = P.coroutine(function*(mockDir){
+  const loadBaseData = P.coroutine(function*(mockDir) {
     const files = yield fs.readdirAsync(mockDir);
-    for(const collection of files){
+    for (const collection of files) {
       const data = yield fs.readFileAsync(path.join(mockDir, collection));
       memoryStorage[collection.replace('.json', '')] = JSON.parse(data);
     }

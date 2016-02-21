@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-(function (){
+(function () {
   'use strict';
 
   const express = require('express');
@@ -22,8 +22,8 @@
 
   // attach user info to req
   app.use((req, res, next) => {
-    if(enableUser){
-      if(req.headers['x-userid']){
+    if (enableUser) {
+      if (req.headers['x-userid']) {
         req.user = req.headers['x-userid'];
       }
       else {
@@ -37,7 +37,7 @@
 
   // ERROR HANDLING
   app.use((err, req, res, next) => {
-    if(process.env.NODE_ENV === 'test'){
+    if (process.env.NODE_ENV === 'test') {
       console.log(err);
     }
     res.status(404).send({error: err});
@@ -46,7 +46,9 @@
   memory.setup()
   .then(() => {
     app.listen(port, () => {
-      console.log(`Mock Server Listening on port ${port}!`);
+      if (process.env.NODE_ENV !== 'test') {
+        console.log(`Mock Server Listening on port ${port}!`);
+      }
     });
   });
 

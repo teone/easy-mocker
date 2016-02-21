@@ -5,10 +5,11 @@
   const app = require('../src/server');
   const chai = require('chai');
   const expect = chai.expect;
+  let memory;
 
   describe('From the base config', () => {
     beforeEach((done) => {
-      const memory = require('../src/lib/in_memory');
+      memory = require('../src/lib/in_memory');
       memory.setup()
       .then(() => {
         done();
@@ -121,6 +122,19 @@
                 expect(res1.body.updated).to.equal(true);
                 done();
               });
+          });
+      });
+    });
+
+    describe('when deleting an item', () => {
+      it('should return 204 and remove item', (done) => {
+        request(app)
+          .delete('/api/users/1')
+          .end((err, res) => {
+            expect(res.status).to.equal(204);
+            expect(memory.memoryStorage.users.length).to.equal(1);
+            expect(memory.memoryStorage.users[0].id).to.equal(2);
+            done();
           });
       });
     });
