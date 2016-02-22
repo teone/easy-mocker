@@ -62,6 +62,7 @@ Examples for this files can be found in `spec/mocks`, anyway they are plain `JSO
 ## TODO
 
 - Create and endpont (or command to restore the original data)
+- Add a delay option to slow down responses
 - How to handle similar endpoints (`api/user/devices`, `api/other/devices`)? Now thery'll look for the same definition file `devices.json`. Probably adding an optional `filename` to the `config` should work.
 - Handle users
 - Add config options to allow specify a header different form `x-userid` to identify user
