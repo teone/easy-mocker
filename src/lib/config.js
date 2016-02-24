@@ -1,7 +1,6 @@
 (function () {
   'use strict';
   const args = require('optimist').argv;
-  const path = require('path');
 
   if (process.env.NODE_ENV !== 'test') {
     if (!args.c) {
@@ -11,11 +10,6 @@
     if (!args.d) {
       throw new Error('Specifing a mock directory is MANDATORY! Use -d flag.');
     }
-  }
-  else {
-    args.c = path.join(__dirname, '../../spec/config/base.json');
-    args.d = path.join(__dirname, '../../spec/mocks/');
-    args.p = 4001;
   }
 
   const config = {

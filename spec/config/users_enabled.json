@@ -1,7 +1,7 @@
 {
   "auth": {
     "headerField": "x-randomField"
-  }
+  },
   "endpoints": [
     {
       "url": "users",
