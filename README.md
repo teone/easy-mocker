@@ -28,20 +28,22 @@ Minimum usage: `easy-mocker -c config.json -d folder/`
 This is a sample structure for a configuration file:
 
 ```
-[
-  {
-    "url": "users",
-    "base": "api/",
-    "methods": ["GET"],
-    "param": "id"
-  },
-  {
-    "url": "posts",
-    "base": "api/",
-    "methods": ["GET", "POST"],
-    "param": "id"
-  }
-]
+{
+  "endpoints": [
+    {
+      "url": "users",
+      "base": "api/",
+      "methods": ["GET"],
+      "param": "id"
+    },
+    {
+      "url": "posts",
+      "base": "api/",
+      "methods": ["GET", "POST"],
+      "param": "id"
+    }
+  ]
+}
 ```
 
 That will generate the following endpoints:

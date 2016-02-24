@@ -104,7 +104,7 @@
 
   fs.readFileAsync(config.definitionFile)
   .then((file) => {
-    buildRest(JSON.parse(file));
+    buildRest(JSON.parse(file).endpoints);
   })
   .catch((e) => {
     throw new Error(e);

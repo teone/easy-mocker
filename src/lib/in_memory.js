@@ -33,7 +33,7 @@
   const setup = P.promisify((done) => {
     fs.readFileAsync(config.definitionFile)
     .then((file) => {
-      buildStorage(JSON.parse(file));
+      buildStorage(JSON.parse(file).endpoints);
       loadBaseData(config.mockDir)
       .then(() => {
         done();
