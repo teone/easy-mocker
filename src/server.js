@@ -9,10 +9,12 @@
 
   // CONFIG
   const port = require('./lib/config').port;
-  const enableUser = require('./lib/config').user;
 
   // IN MEMORY STORAGE
   const memory = require('./lib/in_memory');
+
+  // MIDDLEWARES
+  const userMiddleware = require('./lib/user');
 
   // ROUTES
   const apiRoutes = require('./lib/api');
@@ -21,17 +23,7 @@
   app.use(bodyParser.json());
 
   // attach user info to req
-  app.use((req, res, next) => {
-    if (enableUser) {
-      if (req.headers['x-userid']) {
-        req.user = req.headers['x-userid'];
-      }
-      else {
-        return next(new Error('User not found'));
-      }
-    }
-    return next();
-  });
+  app.use(userMiddleware);
 
   app.use('/', apiRoutes);
 

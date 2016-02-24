@@ -1,6 +1,5 @@
 (function () {
   'use strict';
-
   const args = require('optimist').argv;
   const path = require('path');
 
@@ -19,10 +18,12 @@
     args.p = 4001;
   }
 
-  module.exports = {
+  const config = {
     port: args.p || 4000,
     definitionFile: args.c,
     mockDir: args.d,
     user: args.u || false,
   };
+
+  module.exports = config;
 })();
