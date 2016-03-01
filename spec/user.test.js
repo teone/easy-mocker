@@ -5,7 +5,10 @@
   const expect = chai.expect;
   const mockery = require('mockery');
   const path = require('path');
+  const request = require('supertest');
   let userMiddleware;
+  let app;
+  let memory;
 
   describe('When provided the -u flag', () => {
     before(() => {
@@ -66,7 +69,7 @@
         it('should add user property to req', (done) => {
           const req = {
             headers: {
-              'x-randomField': 'myId',
+              'x-randomfield': 'myId',
             },
           };
 
@@ -78,6 +81,53 @@
           .catch(e => {
             done(e);
           });
+        });
+      });
+    });
+
+    describe('the apis', () => {
+      beforeEach((done) => {
+        mockery.resetCache();
+        const configMock = {
+          user: true,
+          definitionFile: path.join(__dirname, './config/users_enabled.json'),
+          mockDir: path.join(__dirname, './mocks/users_enabled/'),
+        };
+        mockery.registerMock('./config', configMock);
+        app = require('../src/server');
+        memory = require('../src/lib/in_memory');
+        memory.setup()
+        .then(() => {
+          done();
+        });
+      });
+      afterEach(() => {
+        mockery.deregisterMock('./config');
+      });
+      describe('when GET', () => {
+        it('should filter data based on userid', (done) => {
+          request(app)
+            .get('/api/posts')
+            .set({'x-randomField': '1'})
+            .end((err, res) => {
+              expect(res.status).to.equal(200);
+              expect(res.body.length).to.equal(2);
+              done();
+            });
+        });
+      });
+
+      describe('when POST', () => {
+        it('should add user field to req.body', (done) => {
+          request(app)
+            .post('/api/posts')
+            .send({title: 'randomTitle'})
+            .set({'x-randomField': '1'})
+            .end((err, res) => {
+              expect(res.status).to.equal(200);
+              expect(res.body.user).to.equal(1);
+              done();
+            });
         });
       });
     });

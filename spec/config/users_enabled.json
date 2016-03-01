@@ -4,12 +4,6 @@
   },
   "endpoints": [
     {
-      "url": "users",
-      "base": "api/",
-      "methods": ["GET", "POST", "DELETE"],
-      "param": "id"
-    },
-    {
       "url": "posts",
       "base": "api/",
       "methods": ["GET", "POST"],
