@@ -46,6 +46,7 @@
             });
             break;
           case 'DELETE':
+          case 'PUT':
             // NOTE Should we handle delete for a full collection?
             break;
           default:

@@ -6,6 +6,7 @@
   const app = express();
   const cors = require('cors');
   const bodyParser = require('body-parser');
+  const readline = require('readline');
 
   // CONFIG
   const port = require('./lib/config').port;
@@ -18,6 +19,10 @@
 
   // ROUTES
   const apiRoutes = require('./lib/api');
+
+  // CLI INTERFACE
+  const rl = readline.createInterface(process.stdin, process.stdout);
+  rl.setPrompt('easy-mocker> ');
 
   app.use(cors());
   app.use(bodyParser.json());
