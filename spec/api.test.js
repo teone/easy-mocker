@@ -2,18 +2,39 @@
   'use strict';
 
   const request = require('supertest');
-  const app = require('../src/server');
   const chai = require('chai');
   const expect = chai.expect;
+  const mockery = require('mockery');
+  const path = require('path');
   let memory;
+  let app;
 
   describe('From the base config', () => {
     beforeEach((done) => {
+      mockery.enable({
+        warnOnReplace: false,
+        warnOnUnregistered: false,
+        useCleanCache: true,
+      });
+      mockery.resetCache();
+      const configMock = {
+        user: false,
+        definitionFile: path.join(__dirname, './config/base.json'),
+        mockDir: path.join(__dirname, './mocks/base/'),
+      };
+      mockery.registerMock('./lib/config', configMock);
+      mockery.registerMock('./config', configMock);
+      app = require('../src/server');
       memory = require('../src/lib/in_memory');
       memory.setup()
       .then(() => {
         done();
       });
+    });
+
+    afterEach(() => {
+      mockery.deregisterMock('./config');
+      mockery.disable();
     });
 
     describe('when quering items', () => {

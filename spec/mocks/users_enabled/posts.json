@@ -1,0 +1,22 @@
+[
+  {
+    "id": 1,
+    "name": "Jhon Snow",
+    "user": 1
+  },
+  {
+    "id": 2,
+    "name": "Igritte",
+    "user": 1
+  },
+  {
+    "id": 3,
+    "name": "Tyrion Lannister",
+    "user": 2
+  },
+  {
+    "id": 4,
+    "name": "Brienne of Tarth",
+    "user": 2
+  }
+]

@@ -1,6 +1,6 @@
 {
   "name": "easy-mocker",
-  "version": "1.2.1",
+  "version": "1.3.0",
   "keywords": [
     "server",
     "cli",
@@ -20,12 +20,12 @@
   },
   "author": "Matteo Scandolo",
   "homepage": "https://github.com/teone/easy-mocker",
-  "bugs": { 
-    "url" : "https://github.com/teone/easy-mocker/issues"
+  "bugs": {
+    "url": "https://github.com/teone/easy-mocker/issues"
   },
-  "repository" :{
-    "type" : "git",
-    "url" : "https://github.com/teone/easy-mocker"
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/teone/easy-mocker"
   },
   "license": "MIT",
   "dependencies": {
@@ -41,6 +41,7 @@
     "eslint": "1.10.3",
     "eslint-config-airbnb": "^5.0.1",
     "mocha": "^2.4.5",
+    "mockery": "^1.4.0",
     "nodemon": "^1.8.1",
     "supertest": "^1.1.0"
   }

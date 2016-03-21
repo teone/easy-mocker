@@ -1,0 +1,13 @@
+{
+  "auth": {
+    "headerField": "x-randomField"
+  },
+  "endpoints": [
+    {
+      "url": "posts",
+      "base": "api/",
+      "methods": ["GET", "POST", "DELETE"],
+      "param": "id"
+    }
+  ]
+}

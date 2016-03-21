@@ -31,7 +31,7 @@
 
     describe('given a mocks folder', () => {
       it('should fill the in-memory storage with base data', (done) => {
-        memory.loadBaseData(path.join(__dirname, './mocks/'))
+        memory.loadBaseData(path.join(__dirname, './mocks/base/'))
         .then(() => {
           expect(memory.memoryStorage).to.have.property('users').with.length(2);
           expect(memory.memoryStorage).to.have.property('posts').with.length(0);
