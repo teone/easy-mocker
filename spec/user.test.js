@@ -33,7 +33,7 @@
             definitionFile: path.join(__dirname, './config/base.json'),
           };
           mockery.registerMock('./config', configMock);
-          userMiddleware = require('../src/lib/user');
+          userMiddleware = require('../src/lib/user').userMiddleware;
         });
         afterEach(() => {
           mockery.deregisterMock('./config');
@@ -61,7 +61,7 @@
             definitionFile: path.join(__dirname, './config/users_enabled.json'),
           };
           mockery.registerMock('./config', configMock);
-          userMiddleware = require('../src/lib/user');
+          userMiddleware = require('../src/lib/user').userMiddleware;
         });
         afterEach(() => {
           mockery.deregisterMock('./config');
@@ -101,9 +101,11 @@
           done();
         });
       });
+
       afterEach(() => {
         mockery.deregisterMock('./config');
       });
+
       describe('when GET', () => {
         it('should filter data based on userid', (done) => {
           request(app)
@@ -114,6 +116,19 @@
               expect(res.body.length).to.equal(2);
               done();
             });
+        });
+
+        describe('a single entry', () => {
+          it('should not read entries that belongs to other users', (done) => {
+            request(app)
+              .get('/api/posts/3')
+              .set({'x-randomField': '1'})
+              .end((err, res) => {
+                expect(res.status).to.equal(403);
+                expect(res.body.error).to.equal('This is not your stuff! Keep your hands down!');
+                done();
+              });
+          });
         });
       });
 
@@ -126,6 +141,19 @@
             .end((err, res) => {
               expect(res.status).to.equal(200);
               expect(res.body.user).to.equal(1);
+              done();
+            });
+        });
+      });
+
+      describe('when DELETE', () => {
+        it('should prevent deleting other users entries', (done) => {
+          request(app)
+            .delete('/api/posts/3')
+            .set({'x-randomField': '1'})
+            .end((err, res) => {
+              expect(res.status).to.equal(403);
+              expect(res.body.error).to.equal('This is not your stuff! Keep your hands down!');
               done();
             });
         });

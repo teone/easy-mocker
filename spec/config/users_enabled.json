@@ -6,7 +6,7 @@
     {
       "url": "posts",
       "base": "api/",
-      "methods": ["GET", "POST"],
+      "methods": ["GET", "POST", "DELETE"],
       "param": "id"
     }
   ]

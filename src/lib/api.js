@@ -9,6 +9,10 @@
 
   const config = require('./config');
   const memoryStorage = require('./in_memory').memoryStorage;
+  const belongToUser = require('./user.js').belongToUser;
+
+  // ERROR MESSAGES
+  const doesNotBelongToUser = 'This is not your stuff! Keep your hands down!';
 
   const buildRest = (apiDefinitions) => {
     for (const endpoint of apiDefinitions) {
@@ -17,11 +21,13 @@
         switch (method) {
           case 'GET':
             router.get(`/${endpoint.base}${endpoint.url}`, (req, res) => {
+
               // filtering on query params
               if (Object.keys(req.query).length > 0) {
                 // django patch
                 delete req.query.no_hyperlinks;
                 // convert param number in numbers
+                // NOTE this will conflict with a query string based search
                 for (const p in req.query) {
                   if (!isNaN(req.query[p])) {
                     req.query[p] = parseInt(req.query[p], 10);
@@ -50,7 +56,7 @@
             // NOTE Should we handle delete for a full collection?
             break;
           default:
-            throw new Error(`Query Method ${method} Not Handled!`);
+            throw new Error(`Method ${method} Not Handled!`);
         }
 
         if (endpoint.param) {
@@ -58,8 +64,11 @@
           switch (method) {
             case 'GET':
               router.get(`/${endpoint.base}${endpoint.url}/:${endpoint.param}`, (req, res) => {
-                const filter = {};
-                filter[endpoint.param] = req.params[endpoint.param];
+
+                // checking ownership
+                if (!belongToUser(req, endpoint, memoryStorage[endpoint.url])) {
+                  return res.status(403).send({error: doesNotBelongToUser});
+                }
 
                 return res.send(_.find(
                   memoryStorage[endpoint.url],
@@ -88,6 +97,12 @@
               break;
             case 'DELETE':
               router.delete(`/${endpoint.base}${endpoint.url}/:${endpoint.param}`, (req, res) => {
+
+                // checking ownership
+                if (!belongToUser(req, endpoint, memoryStorage[endpoint.url])) {
+                  return res.status(403).send({error: doesNotBelongToUser});
+                }
+
                 _.remove(
                   memoryStorage[endpoint.url],
                   el => el[endpoint.param] == req.params[endpoint.param]

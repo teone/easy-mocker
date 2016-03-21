@@ -6,7 +6,6 @@
   const app = express();
   const cors = require('cors');
   const bodyParser = require('body-parser');
-  const readline = require('readline');
 
   // CONFIG
   const port = require('./lib/config').port;
@@ -15,14 +14,10 @@
   const memory = require('./lib/in_memory');
 
   // MIDDLEWARES
-  const userMiddleware = require('./lib/user');
+  const userMiddleware = require('./lib/user').userMiddleware;
 
   // ROUTES
   const apiRoutes = require('./lib/api');
-
-  // CLI INTERFACE
-  const rl = readline.createInterface(process.stdin, process.stdout);
-  rl.setPrompt('easy-mocker> ');
 
   app.use(cors());
   app.use(bodyParser.json());
@@ -35,7 +30,7 @@
   // ERROR HANDLING
   app.use((err, req, res, next) => {
     if (process.env.NODE_ENV === 'test') {
-      console.log(err);
+      console.log(err, err.stack);
     }
     res.status(404).send({error: err});
   });

@@ -5,15 +5,19 @@
   const fs = require('fs');
   const P = require('bluebird');
   P.promisifyAll(fs);
+  const _ = require('lodash');
+
+  let defaultField;
 
   const userMiddleware = (req, res, next) =>
     fs.readFileAsync(config.definitionFile)
     .then((file) => {
+
       if (config.user) {
         const auth = JSON.parse(file).auth;
 
         // get the header field
-        let defaultField = 'x-userid';
+        defaultField = 'x-userid';
         if (auth && auth.headerField) {
           defaultField = auth.headerField.toLowerCase();
         }
@@ -47,5 +51,28 @@
       next(e);
     });
 
-  module.exports = userMiddleware;
+  /**
+   * Check if a requested model belongs to the active user
+   * @param req An express request
+   * @param endpoint The endpoint definition from the config file
+   * @param collection The collection to be checked
+   */
+
+  const belongToUser = (req, endpoint, collection) => {
+
+    // if users are not enabled, skip the checks
+    if (!config.user) {
+      return true;
+    }
+
+    const userId = req.headers[defaultField];
+    const modelId = req.params[endpoint.param];
+
+    const model = _.find(collection, (item) => item[endpoint.param] == modelId);
+
+    return model.user === userId;
+  };
+
+  exports.userMiddleware = userMiddleware;
+  exports.belongToUser = belongToUser;
 })();
