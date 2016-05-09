@@ -16,7 +16,10 @@
   },
   "scripts": {
     "lint": "eslint ./",
-    "test": "NODE_ENV=test mocha spec/"
+    "test": "NODE_ENV=test mocha spec/",
+    "test:api": "NODE_ENV=test mocha spec/api.test.js",
+    "test:config": "NODE_ENV=test mocha spec/config.test.js",
+    "test:user": "NODE_ENV=test mocha spec/user.test.js"
   },
   "author": "Matteo Scandolo",
   "homepage": "https://github.com/teone/easy-mocker",

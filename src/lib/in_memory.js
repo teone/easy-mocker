@@ -24,6 +24,7 @@
   const loadBaseData = P.coroutine(function*(mockDir) {
     const files = yield fs.readdirAsync(mockDir);
     for (const collection of files) {
+      // console.log('mocks' ,path.join(mockDir, collection));
       const data = yield fs.readFileAsync(path.join(mockDir, collection));
       memoryStorage[collection.replace('.json', '')] = JSON.parse(data);
     }
@@ -37,6 +38,10 @@
       loadBaseData(config.mockDir)
       .then(() => {
         done();
+      })
+      .catch((e) => {
+        console.log('inner error');
+        throw new Error(e);
       });
     })
     .catch((e) => {

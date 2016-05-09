@@ -19,7 +19,6 @@
       });
     });
 
-
     after(() => {
       mockery.disable();
     });
