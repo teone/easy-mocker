@@ -8,7 +8,7 @@
   const bodyParser = require('body-parser');
 
   // CONFIG
-  const port = require('./lib/config').port;
+  const port = require('./lib/config').config.port;
 
   // IN MEMORY STORAGE
   const memory = require('./lib/in_memory');

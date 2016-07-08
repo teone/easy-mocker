@@ -5,7 +5,7 @@
   const path = require('path');
   const fs = require('fs');
   P.promisifyAll(fs);
-  const config = require('./config');
+  const config = require('./config').config;
   const routeBuilder = require('./api').routeBuilder;
 
   const memoryStorage = {};

@@ -63,8 +63,10 @@
         memory.memoryStorage.posts = ['d', 'e', 'f'];
         mockery.resetCache();
         const configMock = {
-          definitionFile: path.join(__dirname, './config/base.json'),
-          mockDir: path.join(__dirname, './mocks/base/'),
+          config: {
+            definitionFile: path.join(__dirname, './config/base.json'),
+            mockDir: path.join(__dirname, './mocks/base/'),
+          },
         };
         mockery.registerMock('./config', configMock);
         memory = require('../src/lib/in_memory');
@@ -78,7 +80,6 @@
           done();
         })
         .catch((e) => {
-          console.log(e);
           done(e);
         });
       });

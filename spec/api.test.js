@@ -18,9 +18,11 @@
       });
       mockery.resetCache();
       const configMock = {
-        user: false,
-        definitionFile: path.join(__dirname, './config/base.json'),
-        mockDir: path.join(__dirname, './mocks/base/'),
+        config: {
+          user: false,
+          definitionFile: path.join(__dirname, './config/base.json'),
+          mockDir: path.join(__dirname, './mocks/base/'),
+        },
       };
       mockery.registerMock('./lib/config', configMock);
       mockery.registerMock('./config', configMock);
@@ -170,9 +172,11 @@
       });
       mockery.resetCache();
       const configMock = {
-        user: false,
-        definitionFile: path.join(__dirname, './config/missing-endpoint.json'),
-        mockDir: path.join(__dirname, './mocks/base/'),
+        config: {
+          user: false,
+          definitionFile: path.join(__dirname, './config/missing-endpoint.json'),
+          mockDir: path.join(__dirname, './mocks/base/'),
+        },
       };
       mockery.registerMock('./lib/config', configMock);
       mockery.registerMock('./config', configMock);

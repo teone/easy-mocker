@@ -28,8 +28,10 @@
         beforeEach(() => {
           mockery.resetCache();
           const configMock = {
-            user: true,
-            definitionFile: path.join(__dirname, './config/base.json'),
+            config: {
+              user: true,
+              definitionFile: path.join(__dirname, './config/base.json'),
+            },
           };
           mockery.registerMock('./config', configMock);
           userMiddleware = require('../src/lib/user').userMiddleware;
@@ -56,8 +58,10 @@
         beforeEach(() => {
           mockery.resetCache();
           const configMock = {
-            user: true,
-            definitionFile: path.join(__dirname, './config/users_enabled.json'),
+            config: {
+              user: true,
+              definitionFile: path.join(__dirname, './config/users_enabled.json'),
+            },
           };
           mockery.registerMock('./config', configMock);
           userMiddleware = require('../src/lib/user').userMiddleware;
@@ -88,9 +92,11 @@
       beforeEach((done) => {
         mockery.resetCache();
         const configMock = {
-          user: true,
-          definitionFile: path.join(__dirname, './config/users_enabled.json'),
-          mockDir: path.join(__dirname, './mocks/users_enabled/'),
+          config: {
+            user: true,
+            definitionFile: path.join(__dirname, './config/users_enabled.json'),
+            mockDir: path.join(__dirname, './mocks/users_enabled/'),
+          },
         };
         mockery.registerMock('./config', configMock);
         app = require('../src/server');

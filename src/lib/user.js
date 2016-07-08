@@ -1,7 +1,7 @@
 (function () {
   'use strict';
 
-  const config = require('./config');
+  const config = require('./config').config;
   const fs = require('fs');
   const P = require('bluebird');
   P.promisifyAll(fs);

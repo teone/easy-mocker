@@ -20,5 +20,5 @@
     endpoints: [],
   };
 
-  module.exports = config;
+  exports.config = config;
 })();
