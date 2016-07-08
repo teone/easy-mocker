@@ -49,7 +49,7 @@
         memory.loadBaseData(path.join(__dirname, './mocks/base/'))
         .then(() => {
           expect(memory.memoryStorage).to.have.property('users').with.length(2);
-          expect(memory.memoryStorage).to.have.property('posts').with.length(0);
+          expect(memory.memoryStorage).to.have.property('posts').with.length(2);
           done();
         });
       });
@@ -64,7 +64,7 @@
         mockery.resetCache();
         const configMock = {
           definitionFile: path.join(__dirname, './config/base.json'),
-          mockDir: path.join(__dirname, './mocks/base/')
+          mockDir: path.join(__dirname, './mocks/base/'),
         };
         mockery.registerMock('./config', configMock);
         memory = require('../src/lib/in_memory');
@@ -74,7 +74,7 @@
         memory.setup()
         .then(() => {
           expect(memory.memoryStorage).to.have.property('users').with.length(2);
-          expect(memory.memoryStorage).to.have.property('posts').with.length(0);
+          expect(memory.memoryStorage).to.have.property('posts').with.length(2);
           done();
         })
         .catch((e) => {

@@ -17,7 +17,7 @@
   const userMiddleware = require('./lib/user').userMiddleware;
 
   // ROUTES
-  const apiRoutes = require('./lib/api');
+  const apiRoutes = require('./lib/api').routes;
 
   app.use(cors());
   app.use(bodyParser.json());

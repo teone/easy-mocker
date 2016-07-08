@@ -9,7 +9,13 @@
     {
       "url": "posts",
       "base": "api/",
-      "methods": ["GET", "POST"],
+      "methods": ["GET", "POST", "DELETE"],
+      "param": "id"
+    },
+    {
+      "url": "empty",
+      "base": "api/",
+      "methods": ["GET", "POST", "DELETE"],
       "param": "id"
     }
   ]

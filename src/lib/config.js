@@ -17,6 +17,7 @@
     definitionFile: args.c,
     mockDir: args.d,
     user: args.u || false,
+    endpoints: [],
   };
 
   module.exports = config;

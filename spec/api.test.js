@@ -100,7 +100,7 @@
       describe('in an empty collection', () => {
         it('should return an object and persist data', (done) => {
           request(app)
-            .post('/api/posts')
+            .post('/api/empty')
             .send({
               title: 'Sample Title',
             })
@@ -110,7 +110,7 @@
               expect(res.body.title).to.equal('Sample Title');
 
               request(app)
-                .get('/api/posts/1')
+                .get('/api/empty/1')
                 .end((err1, res1) => {
                   expect(res1.status).to.equal(200);
                   expect(res1.body.title).to.equal('Sample Title');
@@ -158,6 +158,44 @@
             done();
           });
       });
+    });
+  });
+
+  describe('From the Missing Endpoint config', () => {
+    beforeEach(() => {
+      mockery.enable({
+        warnOnReplace: false,
+        warnOnUnregistered: false,
+        useCleanCache: true,
+      });
+      mockery.resetCache();
+      const configMock = {
+        user: false,
+        definitionFile: path.join(__dirname, './config/missing-endpoint.json'),
+        mockDir: path.join(__dirname, './mocks/base/'),
+      };
+      mockery.registerMock('./lib/config', configMock);
+      mockery.registerMock('./config', configMock);
+
+      memory = require('../src/lib/in_memory');
+    });
+
+    it('should throw an error', (done) => {
+      memory.setup()
+      .then(() => {
+        // if doesn't reject the test should fail
+        expect(true).to.equal(false);
+        done();
+      })
+      .catch(() => {
+        expect(true).to.equal(true);
+        done();
+      });
+    });
+
+    afterEach(() => {
+      mockery.deregisterMock('./config');
+      mockery.disable();
     });
   });
 })();

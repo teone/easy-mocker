@@ -6,6 +6,7 @@
   const fs = require('fs');
   P.promisifyAll(fs);
   const config = require('./config');
+  const routeBuilder = require('./api').routeBuilder;
 
   const memoryStorage = {};
 
@@ -31,21 +32,27 @@
   });
 
   // start
+  let configFile;
   const setup = P.promisify((done) => {
     fs.readFileAsync(config.definitionFile)
     .then((file) => {
-      buildStorage(JSON.parse(file).endpoints);
-      loadBaseData(config.mockDir)
-      .then(() => {
-        done();
-      })
-      .catch((e) => {
-        console.log('inner error');
-        throw new Error(e);
-      });
+
+      configFile = JSON.parse(file);
+
+      if (!configFile.endpoints) {
+        throw new Error('Is mandatory to specify an "endpoints" property in config.');
+      }
+
+      buildStorage(configFile.endpoints);
+
+      return loadBaseData(config.mockDir);
+    })
+    .then(() => {
+      routeBuilder(configFile.endpoints);
+      done();
     })
     .catch((e) => {
-      throw new Error(e);
+      done(e);
     });
   });
 

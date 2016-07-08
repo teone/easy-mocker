@@ -7,14 +7,16 @@
   const _ = require('lodash');
   P.promisifyAll(fs);
 
-  const config = require('./config');
-  const memoryStorage = require('./in_memory').memoryStorage;
   const belongToUser = require('./user.js').belongToUser;
 
   // ERROR MESSAGES
   const doesNotBelongToUser = 'This is not your stuff! Keep your hands down!';
 
   const buildRest = (apiDefinitions) => {
+
+    // this is ugly
+    const memoryStorage = require('./in_memory').memoryStorage;
+
     for (const endpoint of apiDefinitions) {
       for (const method of endpoint.methods) {
         // Build GET and POST endpoints
@@ -118,17 +120,10 @@
     }
   };
 
-  fs.readFileAsync(config.definitionFile)
-  .then((file) => {
-    buildRest(JSON.parse(file).endpoints);
-  })
-  .catch((e) => {
-    throw new Error(e);
-  });
-
   router.get('/', (req, res) => {
-    res.send('Welcome to E-Cord dev server');
+    res.send('Welcome to Easy-mocker dev server');
   });
 
-  module.exports = router;
+  exports.routes = router;
+  exports.routeBuilder = buildRest;
 })();
