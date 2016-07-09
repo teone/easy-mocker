@@ -8,16 +8,39 @@
   const config = require('./config').config;
   const routeBuilder = require('./api').routeBuilder;
 
-  const memoryStorage = {};
+  let memoryStorage = {};
+
+  /**
+  * Get the storage
+  */
+  const getStorage = P.promisify((done) => {
+    return done(null, memoryStorage);
+  });
+
+  const setStorage = P.promisify((storage, done) => {
+    memoryStorage = storage;
+    return done(null, memoryStorage);
+  });
 
   /**
   * Should create the object structure to contain data
   */
-  const buildStorage = (apiDefinitions) => {
-    for (const endpoint of apiDefinitions) {
-      memoryStorage[endpoint.url] = [];
+  const buildStorage = P.promisify((apiDefinitions, done) => {
+    try {
+      for (const endpoint of apiDefinitions) {
+
+        if (!endpoint.url) {
+          throw new Error('Endpoints must have an URL');
+        }
+
+        memoryStorage[endpoint.url] = [];
+      }
+      return done(null, memoryStorage);
     }
-  };
+    catch (e) {
+      return done(e);
+    }
+  });
 
   /**
   * Should fill the memory storage with provided data from mock files
@@ -56,10 +79,8 @@
     });
   });
 
-  module.exports = {
-    memoryStorage: memoryStorage,
-    buildStorage: buildStorage,
-    loadBaseData: loadBaseData,
-    setup: setup,
-  };
+  exports.memoryStorage = memoryStorage;
+  exports.buildStorage = buildStorage;
+  exports.getStorage = getStorage;
+  exports.setStorage = setStorage;
 })();

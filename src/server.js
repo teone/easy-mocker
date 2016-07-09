@@ -6,9 +6,10 @@
   const app = express();
   const cors = require('cors');
   const bodyParser = require('body-parser');
+  const config = require('./lib/config');
 
   // CONFIG
-  const port = require('./lib/config').config.port;
+  const port = config.config.port;
 
   // IN MEMORY STORAGE
   const memory = require('./lib/in_memory');
@@ -35,13 +36,26 @@
     res.status(404).send({error: err});
   });
 
-  memory.setup()
-  .then(() => {
-    app.listen(port, () => {
-      if (process.env.NODE_ENV !== 'test') {
-        console.log(`Mock Server Listening on port ${port}!`);
-      }
-    });
+  // memory.setup()
+  // .then(() => {
+  //   app.listen(port, () => {
+  //     if (process.env.NODE_ENV !== 'test') {
+  //       console.log(`Mock Server Listening on port ${port}!`);
+  //     }
+  //   });
+  // });
+
+  // reading the configuration
+  config.readConfig()
+  .then((cfg) => {
+    // build memory storage
+    return memory.buildStorage(cfg.endpoints);
+  })
+  .then((memoryStorage) => {
+    console.log('storage built', memoryStorage);
+  })
+  .catch(e => {
+    throw new Error(e);
   });
 
   module.exports = app;

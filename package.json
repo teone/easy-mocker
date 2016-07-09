@@ -16,10 +16,7 @@
   },
   "scripts": {
     "lint": "eslint ./",
-    "test": "NODE_ENV=test mocha spec/",
-    "test:api": "NODE_ENV=test mocha spec/api.test.js",
-    "test:config": "NODE_ENV=test mocha spec/config.test.js",
-    "test:user": "NODE_ENV=test mocha spec/user.test.js"
+    "test": "NODE_ENV=test mocha spec/"
   },
   "author": "Matteo Scandolo",
   "homepage": "https://github.com/teone/easy-mocker",
@@ -41,6 +38,7 @@
   },
   "devDependencies": {
     "chai": "^3.5.0",
+    "chai-as-promised": "^5.3.0",
     "eslint": "1.10.3",
     "eslint-config-airbnb": "^5.0.1",
     "mocha": "^2.4.5",

@@ -2,8 +2,8 @@
 
 This is the series of actions that needs to be executed to start the server:
 
-- Read Configuration (check validity)
-- Build MemoryStorage
+[x] Read Configuration (check validity)
+[x] Build MemoryStorage
 - Load base data into MemoryStorage
 - Create the routes (pass a reference to the storage)
 
