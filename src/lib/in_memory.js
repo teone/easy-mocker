@@ -13,9 +13,7 @@
   /**
   * Get the storage
   */
-  const getStorage = P.promisify((done) => {
-    return done(null, memoryStorage);
-  });
+  const getStorage = P.promisify((done) => done(null, memoryStorage));
 
   const setStorage = P.promisify((storage, done) => {
     memoryStorage = storage;

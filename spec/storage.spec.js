@@ -9,6 +9,41 @@
   chai.use(chaiAsPromised);
 
   describe('The Storage module', () => {
+
+    describe('the getStorage method', () => {
+
+      beforeEach((done) => {
+        memory.setStorage({test: []})
+        .then(() => {
+          done();
+        });
+      });
+
+      it('should return the memoryStorage', (done) => {
+        memory.getStorage()
+        .then((storage) => {
+          expect(storage).to.deep.equal({test: []});
+          done();
+        });
+      });
+    });
+
+    describe('the setStorage method', () => {
+
+
+      it('should return the memoryStorage', (done) => {
+        memory.setStorage({test: []})
+        .then((storage) => {
+          expect(storage).to.deep.equal({test: []});
+          return memory.getStorage();
+        })
+        .then((storage) => {
+          expect(storage).to.deep.equal({test: []});
+          done();
+        });
+      });
+    });
+
     describe('the buildStorage method', () => {
 
       beforeEach((done) => {
