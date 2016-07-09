@@ -45,14 +45,15 @@
   //   });
   // });
 
-  // reading the configuration
   config.readConfig()
   .then((cfg) => {
-    // build memory storage
     return memory.buildStorage(cfg.endpoints);
   })
-  .then((memoryStorage) => {
-    console.log('storage built', memoryStorage);
+  .then(() => {
+    return memory.loadBaseData(config.config.mockDir);
+  })
+  .then((res) => {
+    console.log('data loaded', res);
   })
   .catch(e => {
     throw new Error(e);

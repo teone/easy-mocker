@@ -79,6 +79,7 @@
 
   exports.memoryStorage = memoryStorage;
   exports.buildStorage = buildStorage;
+  exports.loadBaseData = loadBaseData;
   exports.getStorage = getStorage;
   exports.setStorage = setStorage;
 })();

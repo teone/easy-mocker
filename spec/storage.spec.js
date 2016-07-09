@@ -5,6 +5,7 @@
   const chaiAsPromised = require('chai-as-promised');
   const expect = chai.expect;
   const memory = require('../src/lib/in_memory');
+  const path = require('path');
 
   chai.use(chaiAsPromised);
 
@@ -98,6 +99,19 @@
         it('should create the object structure to create data', () => {
           const p = memory.buildStorage(endpointsMock);
           return expect(p).to.eventually.be.rejected;
+        });
+      });
+    });
+
+    describe('the loadBaseData method', () => {
+      it('should load data in the memoryStorage', (done) => {
+        const mockDir = path.join(__dirname, './mocks/base/');
+        memory.loadBaseData(mockDir)
+        .then(() => memory.getStorage())
+        .then((storage) => {
+          expect(storage.posts).to.have.lengthOf(2);
+          expect(storage.users).to.have.lengthOf(2);
+          done();
         });
       });
     });
