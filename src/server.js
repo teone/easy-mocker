@@ -19,6 +19,7 @@
 
   // ROUTES
   const apiRoutes = require('./lib/api').routes;
+  const routeBuilder = require('./lib/api').routeBuilder;
 
   app.use(cors());
   app.use(bodyParser.json());
@@ -29,7 +30,7 @@
   app.use('/', apiRoutes);
 
   // ERROR HANDLING
-  app.use((err, req, res, next) => {
+  app.use((err, req, res) => {
     if (process.env.NODE_ENV === 'test') {
       console.log(err, err.stack);
     }
@@ -45,15 +46,18 @@
   //   });
   // });
 
+  let endpoints;
   config.readConfig()
   .then((cfg) => {
+    endpoints = cfg.endpoints;
     return memory.buildStorage(cfg.endpoints);
   })
+  .then(() => memory.loadBaseData(config.config.mockDir))
+  .then((storage) => routeBuilder(endpoints, storage))
   .then(() => {
-    return memory.loadBaseData(config.config.mockDir);
-  })
-  .then((res) => {
-    console.log('data loaded', res);
+    app.listen(port, () => {
+      console.log(`Mock Server Listening on port ${port}!`);
+    });
   })
   .catch(e => {
     throw new Error(e);

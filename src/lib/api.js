@@ -12,10 +12,9 @@
   // ERROR MESSAGES
   const doesNotBelongToUser = 'This is not your stuff! Keep your hands down!';
 
-  const buildRest = (apiDefinitions) => {
+  const buildRest = (apiDefinitions, memoryStorage) => {
 
     // this is ugly
-    const memoryStorage = require('./in_memory').memoryStorage;
 
     for (const endpoint of apiDefinitions) {
       for (const method of endpoint.methods) {

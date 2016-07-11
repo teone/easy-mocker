@@ -30,8 +30,6 @@
     });
 
     describe('the setStorage method', () => {
-
-
       it('should return the memoryStorage', (done) => {
         memory.setStorage({test: []})
         .then((storage) => {
@@ -107,8 +105,14 @@
       it('should load data in the memoryStorage', (done) => {
         const mockDir = path.join(__dirname, './mocks/base/');
         memory.loadBaseData(mockDir)
-        .then(() => memory.getStorage())
         .then((storage) => {
+          // test return
+          expect(storage.posts).to.have.lengthOf(2);
+          expect(storage.users).to.have.lengthOf(2);
+          return memory.getStorage();
+        })
+        .then((storage) => {
+          // test that it has been persisted
           expect(storage.posts).to.have.lengthOf(2);
           expect(storage.users).to.have.lengthOf(2);
           done();
