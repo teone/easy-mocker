@@ -8,7 +8,7 @@ This is a `NodeJs` webserver intended for development. It provides a basic and q
 
 ## Installation
 
-Grab it form npm: `npm install easy-mocker`
+Grab it form npm: `npm install easy-mocker` (Note that NodeJs >= 4.x.x is required)
 
 Minimum usage: `easy-mocker -c config.json -d folder/`
 
